@@ -10,6 +10,7 @@
 
 视频演示：https://www.bilibili.com/video/BV1uTQmByEMr
 安装教程https://www.bilibili.com/video/BV13eDxBXERo
+(视频演示的带第三方资源的直装包需要加群拿文件)
 
 ---
 
