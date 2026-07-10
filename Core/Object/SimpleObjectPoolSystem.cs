@@ -29,6 +29,9 @@ namespace BBBNexus
         // 对象池场景下 Spawn/Despawn 属于高频路径，因此对每个实例缓存其 IPoolable[]。
         private readonly Dictionary<int, IPoolable[]> _instancePoolablesCache = new Dictionary<int, IPoolable[]>(256);
 
+        // 当前已回收在池中的实例 ID：防止同一实例被重复 Despawn 后被多次发放
+        private readonly HashSet<int> _pooledIds = new HashSet<int>();
+
         private void Awake()
         {
             if (Shared != null && Shared != this)
@@ -61,6 +64,7 @@ namespace BBBNexus
             {
                 var inst = CreateInstance(prefab);
                 InternalDespawn(inst, callCallbacks: true);
+                _pooledIds.Add(inst.GetInstanceID());
                 q.Enqueue(inst);
             }
         }
@@ -82,6 +86,7 @@ namespace BBBNexus
             if (inst == null)
                 inst = CreateInstance(prefab);
 
+            _pooledIds.Remove(inst.GetInstanceID());
             InternalSpawn(inst, callCallbacks: true);
             return inst;
         }
@@ -96,6 +101,8 @@ namespace BBBNexus
 
             if (!_instanceToPrefab.TryGetValue(instance.GetInstanceID(), out var prefab) || prefab == null)
                 return false;
+
+            if (!_pooledIds.Add(instance.GetInstanceID())) return true;
 
             var q = GetOrCreateQueue(prefab);
             InternalDespawn(instance, callCallbacks: true);
@@ -116,6 +123,8 @@ namespace BBBNexus
 
                 return;
             }
+
+            if (!_pooledIds.Add(instance.GetInstanceID())) return;
 
             var q = GetOrCreateQueue(prefab);
             InternalDespawn(instance, callCallbacks: true);

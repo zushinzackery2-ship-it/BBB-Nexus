@@ -76,6 +76,7 @@ namespace BBBNexus
             {
                 if (SimpleObjectPoolSystem.Shared != null)
                 {
+                    _currentWeaponInstance.transform.SetParent(null, false);
                     SimpleObjectPoolSystem.Shared.Despawn(_currentWeaponInstance);
                 }
                 else

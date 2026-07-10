@@ -261,14 +261,12 @@ namespace BBBNexus
                     proj.transform.parent = null;
                 }
 
-                var rb = proj.GetComponent<Rigidbody>();
-                if (rb != null)
+                if (proj.TryGetComponent<Rigidbody>(out var rb))
                 {
                     rb.velocity = _muzzle.forward * _cannonConfig.ProjectileSpeed;
                 }
 
-                var simple = proj.GetComponent<SimpleProjectile>();
-                if (simple != null)
+                if (proj.TryGetComponent<SimpleProjectile>(out var simple))
                 {
                     simple.hitSound = _cannonConfig.ProjectileHitSound;
                 }

@@ -156,7 +156,8 @@ namespace BBBNexus
         {
             Transform current = _data.CurrentAimReference;
 
-            if (_data.CurrentAimReference != null) return;
+            // 引用有效且仍在激活层级中（未被对象池回收/失活）则无需清理
+            if (current != null && current.gameObject.activeInHierarchy) return;
 
             // 清理黑板，防止后续系统继续写入旧引用
             _data.CurrentAimReference = null;
