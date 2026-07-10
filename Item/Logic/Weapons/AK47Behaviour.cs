@@ -3,7 +3,7 @@
 namespace BBBNexus
 {
     // 步枪AK47行为 负责装备瞄准开火IK后坐力等
-    public class AK46Behaviour : MonoBehaviour, IHoldableItem, IPoolable
+    public class AK47Behaviour : MonoBehaviour, IHoldableItem, IPoolable
     {
         [Header("--- 表现与挂点 ---")]
         // 左手握点
