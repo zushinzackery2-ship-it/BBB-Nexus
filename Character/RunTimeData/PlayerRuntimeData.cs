@@ -227,7 +227,7 @@ namespace BBBNexus
         /// <summary>
         /// 清除所有帧级意图标志
         /// </summary>
-        public void ResetIntetnt()
+        public void ResetIntent()
         {
             WantsToVault = false;
             WantToRun = false;
@@ -252,7 +252,7 @@ namespace BBBNexus
             ActionArbitration.Clear();
 
             // 注意 音频事件不在这里清理
-            // AudioController 在 Update 消费（而 ResetIntetnt 在 LateUpdate）
+            // AudioController 在 Update 消费（而 ResetIntent 在 LateUpdate）
             // 若在此清理，会导致本帧刚写入的音频事件在消费前丢失
         }
 

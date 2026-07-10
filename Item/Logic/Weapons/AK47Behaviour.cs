@@ -3,7 +3,7 @@
 namespace BBBNexus
 {
     // 步枪AK47行为 负责装备瞄准开火IK后坐力等
-    public class AK46Behaviour : MonoBehaviour, IHoldableItem, IPoolable
+    public class AK47Behaviour : MonoBehaviour, IHoldableItem, IPoolable
     {
         [Header("--- 表现与挂点 ---")]
         // 左手握点
@@ -74,7 +74,7 @@ namespace BBBNexus
                 _player.RuntimeData.CurrentAimReference = _muzzle;
             }
             
-            float equipAnimDuration = _akconfig.EquipEndTime;
+            float equipAnimDuration = _akconfig != null ? _akconfig.EquipEndTime : 0.5f;
             _equipEndTime = Time.time + equipAnimDuration;
             if (_akconfig != null && _akconfig.EquipAnim != null && _player != null)
             {
@@ -231,13 +231,11 @@ namespace BBBNexus
                     proj.transform.parent = null;
                 }
 
-                var rb = proj.GetComponent<Rigidbody>();
-                if (rb != null)
+                if (proj.TryGetComponent<Rigidbody>(out var rb))
                 {
                     rb.velocity = _muzzle.forward * _akconfig.ProjectileSpeed;
                 }
-                var simple = proj.GetComponent<SimpleProjectile>();
-                if (simple != null)
+                if (proj.TryGetComponent<SimpleProjectile>(out var simple))
                 {
                     simple.hitSound = _akconfig.ProjectileHitSound;
                 }
